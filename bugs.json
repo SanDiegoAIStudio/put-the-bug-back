@@ -1,0 +1,563 @@
+{
+  "timeout": 60,
+  "bugs": [
+    {
+      "id": "caught-words",
+      "guards": "the caught line says the test went red, then green",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_caught",
+      "expect": "FAIL: test_caught",
+      "file": "put_the_bug_back.py",
+      "find": "CAUGHT: red with the bug back, green without it",
+      "replace": "CAUGHT: red with the bug back, green without them"
+    },
+    {
+      "id": "changelog-line",
+      "guards": "a caught run offers the changelog line",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_changelog_line",
+      "expect": "FAIL: test_changelog_line",
+      "file": "put_the_bug_back.py",
+      "find": "changelog line: put the bug back: red, then green",
+      "replace": "changelog line: put the bug back: red, then blue"
+    },
+    {
+      "id": "survived-words",
+      "guards": "a passing test with the bug back is named survived",
+      "test": "python3 -m unittest tests.test_swap.SwapTests.test_survived",
+      "expect": "FAIL: test_survived",
+      "file": "put_the_bug_back.py",
+      "find": "SURVIVED: the test passed with the bug back. It checks something else, or nothing.",
+      "replace": "SURVIVED: the test passed with the bug back. It checks something else, or little."
+    },
+    {
+      "id": "signal-words",
+      "guards": "a signal is reported as the wrong reason",
+      "test": "python3 -m unittest tests.test_swap.SwapTests.test_signal",
+      "expect": "FAIL: test_signal",
+      "file": "put_the_bug_back.py",
+      "find": "killed by signal %d",
+      "replace": "stopped by signal %d"
+    },
+    {
+      "id": "hold-words",
+      "guards": "a failure that lacks the expected text says so",
+      "test": "python3 -m unittest tests.test_swap.SwapTests.test_wrong_reason",
+      "expect": "FAIL: test_wrong_reason",
+      "file": "put_the_bug_back.py",
+      "find": "the output does not hold \"",
+      "replace": "the output does not contain \""
+    },
+    {
+      "id": "not-green-before",
+      "guards": "a test that already fails is not a verdict on the bug",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_not_green_before",
+      "expect": "FAIL: test_not_green_before",
+      "file": "put_the_bug_back.py",
+      "find": "NOT GREEN: the test fails before any bug is put back",
+      "replace": "NOT GREEN: the test fails before a bug is put back"
+    },
+    {
+      "id": "not-green-after",
+      "guards": "the test must pass again after the bug is removed",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_not_green_after",
+      "expect": "FAIL: test_not_green_after",
+      "file": "put_the_bug_back.py",
+      "find": "NOT GREEN: the test did not pass again once the bug was gone",
+      "replace": "NOT GREEN: the test did not pass again after the bug was gone"
+    },
+    {
+      "id": "stale-words",
+      "guards": "a fix that cannot be undone is named stale",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_stale_conflict",
+      "expect": "FAIL: test_stale_conflict",
+      "file": "put_the_bug_back.py",
+      "find": "STALE: could not put the bug back: ",
+      "replace": "STALE: could not restore the bug: "
+    },
+    {
+      "id": "tangled-words",
+      "guards": "a stale commit tells the author to commit the fix alone",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_tangled_followup",
+      "expect": "FAIL: test_tangled_followup",
+      "file": "put_the_bug_back.py",
+      "find": "The fix is tangled with later changes. Next time, commit a fix on its own.",
+      "replace": "The fix is tangled with later changes. Next time, commit the fix on its own."
+    },
+    {
+      "id": "unchecked-words",
+      "guards": "a red run without expected text is still caught",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_unchecked",
+      "expect": "FAIL: test_unchecked",
+      "file": "put_the_bug_back.py",
+      "find": "CAUGHT, REASON NOT CHECKED:",
+      "replace": "CAUGHT, REASON NOT CONFIRMED:"
+    },
+    {
+      "id": "keep-all",
+      "guards": "keeping every changed file is refused",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_keep_everything",
+      "expect": "FAIL: test_keep_everything",
+      "file": "put_the_bug_back.py",
+      "find": "every file the fix changed is kept; nothing to put back",
+      "replace": "every file the fix changed is kept; nothing was put back"
+    },
+    {
+      "id": "merge-words",
+      "guards": "a merge commit is refused as a fix",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_merge_commit",
+      "expect": "FAIL: test_merge_commit",
+      "file": "put_the_bug_back.py",
+      "find": "is a merge commit; name the commit that holds the fix",
+      "replace": "is a merge commit; name the commit with the fix"
+    },
+    {
+      "id": "first-words",
+      "guards": "the first commit is refused as a fix",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_first_commit",
+      "expect": "FAIL: test_first_commit",
+      "file": "put_the_bug_back.py",
+      "find": "is the first commit; there is no earlier version to go back to",
+      "replace": "is the first commit; there is no parent version to go back to"
+    },
+    {
+      "id": "not-a-commit",
+      "guards": "an unknown name is not treated as a commit",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_unknown_commit",
+      "expect": "FAIL: test_unknown_commit",
+      "file": "put_the_bug_back.py",
+      "find": "%s is not a commit",
+      "replace": "%s is not an commit"
+    },
+    {
+      "id": "outside-words",
+      "guards": "a path outside the repository is refused",
+      "test": "python3 -m unittest tests.test_swap.SwapTests.test_outside_path",
+      "expect": "FAIL: test_outside_path",
+      "file": "put_the_bug_back.py",
+      "find": "%s is outside the repository",
+      "replace": "%s is not inside the repository"
+    },
+    {
+      "id": "copy-size",
+      "guards": "a copy over the size limit is refused before it is made",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_max_mb_refuses",
+      "expect": "FAIL: test_max_mb_refuses",
+      "file": "put_the_bug_back.py",
+      "find": "the copy would be ",
+      "replace": "the copy will be "
+    },
+    {
+      "id": "copy-kept",
+      "guards": "a kept copy prints where it was left",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_keep_copy_and_max_mb",
+      "expect": "FAIL: test_keep_copy_and_max_mb",
+      "file": "put_the_bug_back.py",
+      "find": "copy kept: ",
+      "replace": "copy saved: "
+    },
+    {
+      "id": "restore-check",
+      "guards": "the copy is checked byte for byte after each bug",
+      "test": "python3 -m unittest tests.test_all.ListTests.test_second_bug_does_not_see_the_first",
+      "expect": "FAIL: test_second_bug_does_not_see_the_first",
+      "file": "put_the_bug_back.py",
+      "find": "return all(self.same(rel, saved) for rel, saved in self.saved.items())",
+      "replace": "return False"
+    },
+    {
+      "id": "timeout-words",
+      "guards": "a time limit is the wrong reason, and the child is gone",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_timeout_kills_the_child",
+      "expect": "FAIL: test_timeout_kills_the_child",
+      "file": "put_the_bug_back.py",
+      "find": "timed out after %s s",
+      "replace": "gave up after %s s"
+    },
+    {
+      "id": "start-words",
+      "guards": "a command that cannot start is the wrong reason",
+      "test": "python3 -m unittest tests.test_swap.SwapTests.test_exit_127",
+      "expect": "FAIL: test_exit_127",
+      "file": "put_the_bug_back.py",
+      "find": "the command could not start",
+      "replace": "the command did not start"
+    },
+    {
+      "id": "note-words",
+      "guards": "a reverted test file is pointed out",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_note_and_keep",
+      "expect": "FAIL: test_note_and_keep",
+      "file": "put_the_bug_back.py",
+      "find": "which looks like a test, so it went back too",
+      "replace": "which looks like a test, so it was put back too"
+    },
+    {
+      "id": "count-words",
+      "guards": "the list ends with how many bugs were caught",
+      "test": "python3 -m unittest tests.test_all.ListTests.test_only_and_unknown_id",
+      "expect": "FAIL: test_only_and_unknown_id",
+      "file": "put_the_bug_back.py",
+      "find": "caught %d of %d",
+      "replace": "caught %d out of %d"
+    },
+    {
+      "id": "stale-count",
+      "guards": "stale-only reports how many bugs are stale",
+      "test": "python3 -m unittest tests.test_all.ListTests.test_stale_only_starts_no_test",
+      "expect": "FAIL: test_stale_only_starts_no_test",
+      "file": "put_the_bug_back.py",
+      "find": "%d bugs, %d stale",
+      "replace": "%d bugs and %d stale"
+    },
+    {
+      "id": "bytecode-name",
+      "guards": "the test process is told not to write bytecode",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_bytecode_and_mtime",
+      "expect": "FAIL: test_bytecode_and_mtime",
+      "file": "put_the_bug_back.py",
+      "find": "PYTHONDONTWRITEBYTECODE",
+      "replace": "PYTHONDONTWRITEBYTECOD"
+    },
+    {
+      "id": "gap-size",
+      "guards": "a changed file's time moves forward by a whole second",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_mtime_moves_forward",
+      "expect": "FAIL: test_mtime_moves_forward",
+      "file": "put_the_bug_back.py",
+      "find": "gap = 1.0",
+      "replace": "gap = 0.0"
+    },
+    {
+      "id": "overlap-step",
+      "guards": "overlapping copies of the text are counted",
+      "test": "python3 -m unittest tests.test_swap.SwapTests.test_overlap",
+      "expect": "FAIL: test_overlap",
+      "file": "put_the_bug_back.py",
+      "find": "start = found + 1",
+      "replace": "start = found + len(needle)"
+    },
+    {
+      "id": "keep-match",
+      "guards": "a keep glob matches the path from the top of the repository",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_keep_leaves_the_test",
+      "expect": "FAIL: test_keep_leaves_the_test",
+      "file": "put_the_bug_back.py",
+      "find": "fnmatch.fnmatchcase(rel, glob)",
+      "replace": "fnmatch.fnmatchcase(rel, glob + \".no\")"
+    },
+    {
+      "id": "put-back-label",
+      "guards": "the files put back are listed",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_added_file",
+      "expect": "FAIL: test_added_file",
+      "file": "put_the_bug_back.py",
+      "find": "  put back: ",
+      "replace": "  undone: "
+    },
+    {
+      "id": "stamp-from-old",
+      "guards": "a step stamp that follows the old file time misses a rebuild",
+      "test": "python3 -m unittest tests.test_swap.SwapTests.test_rebuild_when_source_is_newer",
+      "expect": "FAIL: test_rebuild_when_source_is_newer",
+      "file": "put_the_bug_back.py",
+      "find": "later = int(now) + gap",
+      "replace": "later = 0"
+    },
+    {
+      "id": "skip-the-wait",
+      "guards": "the test starts before the stamped second has passed",
+      "test": "python3 -m unittest tests.test_swap.SwapTests.test_stamp_is_whole_and_not_in_the_future",
+      "expect": "FAIL: test_stamp_is_whole_and_not_in_the_future",
+      "file": "put_the_bug_back.py",
+      "find": "self.wait_until_passed(stamp)",
+      "replace": "stamp = stamp"
+    },
+    {
+      "id": "no-terminate-handler",
+      "guards": "terminate is not handled",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_terminate_stops_the_command",
+      "expect": "FAIL: test_terminate_stops_the_command",
+      "file": "put_the_bug_back.py",
+      "find": "saved.update(install_one(signal.SIGTERM))",
+      "replace": "saved.update({})"
+    },
+    {
+      "id": "no-hangup-handler",
+      "guards": "hang-up is not handled",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_hangup_stops_the_command",
+      "expect": "FAIL: test_hangup_stops_the_command",
+      "file": "put_the_bug_back.py",
+      "find": "saved.update(install_one(signal.SIGHUP))",
+      "replace": "saved.update({})"
+    },
+    {
+      "id": "stop-leaves-the-test",
+      "guards": "a stop does not kill the test command",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_interrupt_stops_the_command",
+      "expect": "FAIL: test_interrupt_stops_the_command",
+      "file": "put_the_bug_back.py",
+      "find": "kill_group(STATE.child)",
+      "replace": "None"
+    },
+    {
+      "id": "stop-prints-nothing",
+      "guards": "a stop prints nothing",
+      "test": "python3 -m unittest tests.test_run.RunTests.test_stop_line_is_the_only_error",
+      "expect": "FAIL: test_stop_line_is_the_only_error",
+      "file": "put_the_bug_back.py",
+      "find": "complain(\"stopped\")",
+      "replace": "None"
+    },
+    {
+      "id": "restore-says-yes",
+      "guards": "a restore is reported successful without a check",
+      "test": "python3 -m unittest tests.test_run.RunTests.test_restore_is_checked",
+      "expect": "FAIL: test_restore_is_checked",
+      "file": "put_the_bug_back.py",
+      "find": "return all(self.same(rel, saved) for rel, saved in self.saved.items())",
+      "replace": "return True"
+    },
+    {
+      "id": "copy-drops-mtime",
+      "guards": "the copy does not keep file times",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_copy_keeps_file_times",
+      "expect": "FAIL: test_copy_keeps_file_times",
+      "file": "put_the_bug_back.py",
+      "find": "os.utime(dst, (info.st_atime, info.st_mtime))",
+      "replace": "None"
+    },
+    {
+      "id": "mode-stays",
+      "guards": "putting the bug back does not restore the executable bit",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_mode_only_fix_is_caught",
+      "expect": "FAIL: test_mode_only_fix_is_caught",
+      "file": "put_the_bug_back.py",
+      "find": "target = with_exec(current_mode, is_exec(old_mode))",
+      "replace": "target = None"
+    },
+    {
+      "id": "git-env-stays",
+      "guards": "the test command keeps the caller's git variables",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_git_variables_do_not_reach_the_test",
+      "expect": "FAIL: test_git_variables_do_not_reach_the_test",
+      "file": "put_the_bug_back.py",
+      "find": "env.pop(name, None)",
+      "replace": "env.get(name)"
+    },
+    {
+      "id": "stdin-stays",
+      "guards": "the test command reads the tool's input",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_stdin_is_empty",
+      "expect": "FAIL: test_stdin_is_empty",
+      "file": "put_the_bug_back.py",
+      "find": "stdin=subprocess.DEVNULL,",
+      "replace": "stdin=None,"
+    },
+    {
+      "id": "could-not-on-stdout",
+      "guards": "a could-not line is written to ordinary output",
+      "test": "python3 -m unittest tests.test_run.RunTests.test_explanations_use_stderr",
+      "expect": "FAIL: test_explanations_use_stderr",
+      "file": "put_the_bug_back.py",
+      "find": "complain(\"could not: %s\" % err)",
+      "replace": "say(\"could not: %s\" % err)"
+    },
+    {
+      "id": "oserror-escapes",
+      "guards": "an operating-system error leaves the entry point",
+      "test": "python3 -m unittest tests.test_run.RunTests.test_oserror_and_unexpected_return",
+      "expect": "FAIL: test_oserror_and_unexpected_return",
+      "file": "put_the_bug_back.py",
+      "find": "code = report_oserror(err)",
+      "replace": "raise"
+    },
+    {
+      "id": "pipe-not-silenced",
+      "guards": "a closed output pipe is not handled",
+      "test": "python3 -m unittest tests.test_run.RunTests.test_closed_pipe_keeps_going",
+      "expect": "FAIL: test_closed_pipe_keeps_going",
+      "file": "put_the_bug_back.py",
+      "find": "        silence_stdout()",
+      "replace": "        raise"
+    },
+    {
+      "id": "nan-timeout",
+      "guards": "a timeout that is not finite is accepted",
+      "test": "python3 -m unittest tests.test_run.RunTests.test_timeout_rejects_non_finite_numbers",
+      "expect": "FAIL: test_timeout_rejects_non_finite_numbers",
+      "file": "put_the_bug_back.py",
+      "find": "if not math.isfinite(value):",
+      "replace": "if False:"
+    },
+    {
+      "id": "superscript-mb",
+      "guards": "a size limit accepts a digit that is not ascii",
+      "test": "python3 -m unittest tests.test_run.RunTests.test_max_mb_rejects_a_superscript",
+      "expect": "FAIL: test_max_mb_rejects_a_superscript",
+      "file": "put_the_bug_back.py",
+      "find": "if ch < \"0\" or ch > \"9\":",
+      "replace": "if not ch.isdigit():"
+    },
+    {
+      "id": "empty-fix-aborts",
+      "guards": "a listed fix with nothing to put back ends the run",
+      "test": "python3 -m unittest tests.test_all.ListTests.test_listed_fix_with_nothing_to_do_is_stale",
+      "expect": "FAIL: test_listed_fix_with_nothing_to_do_is_stale",
+      "file": "put_the_bug_back.py",
+      "find": "return (\"stale\", str(listed))",
+      "replace": "raise"
+    },
+    {
+      "id": "same-text-allowed",
+      "guards": "a list accepts a find and a replace that are the same",
+      "test": "python3 -m unittest tests.test_all.ListTests.test_find_must_differ",
+      "expect": "FAIL: test_find_must_differ",
+      "file": "put_the_bug_back.py",
+      "find": "bad(\"find and replace must differ\")",
+      "replace": "None"
+    },
+    {
+      "id": "drain-waits",
+      "guards": "the tool keeps waiting on output after the test command ends",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_finished_command_does_not_wait_on_a_holder",
+      "expect": "FAIL: test_finished_command_does_not_wait_on_a_holder",
+      "file": "put_the_bug_back.py",
+      "find": "DRAIN_SECONDS = 2",
+      "replace": "DRAIN_SECONDS = 15"
+    },
+    {
+      "id": "handlers-left",
+      "guards": "stop handlers are not put back",
+      "test": "python3 -m unittest tests.test_run.RunTests.test_handlers_return_on_every_way_out",
+      "expect": "FAIL: test_handlers_return_on_every_way_out",
+      "file": "put_the_bug_back.py",
+      "find": "        restore_handlers(saved)",
+      "replace": "        saved = saved"
+    },
+    {
+      "id": "help-on-error",
+      "guards": "help is written to the error stream",
+      "test": "python3 -m unittest tests.test_run.RunTests.test_help_and_bare_arguments",
+      "expect": "FAIL: test_help_and_bare_arguments",
+      "file": "put_the_bug_back.py",
+      "find": "        write_out(help_text())",
+      "replace": "        sys.stderr.write(help_text())"
+    },
+    {
+      "id": "ignored-hangup-handled",
+      "guards": "an ignored hang-up is given a handler",
+      "test": "python3 -m unittest tests.test_safety.SafetyTests.test_ignored_hangup_stays_ignored",
+      "expect": "FAIL: test_ignored_hangup_stays_ignored",
+      "file": "put_the_bug_back.py",
+      "find": "if previous == signal.SIG_IGN:",
+      "replace": "if False:"
+    },
+    {
+      "id": "second-stop-runs",
+      "guards": "a second stop is not held off during cleanup",
+      "test": "python3 -m unittest tests.test_run.RunTests.test_further_stops_are_held",
+      "expect": "FAIL: test_further_stops_are_held",
+      "file": "put_the_bug_back.py",
+      "find": "    hold_stop_signals()",
+      "replace": "    None"
+    },
+    {
+      "id": "direct-start-continues",
+      "guards": "a test program that cannot start becomes a verdict",
+      "test": "python3 -m unittest tests.test_swap.SwapTests.test_direct_start_failure",
+      "expect": "FAIL: test_direct_start_failure",
+      "file": "put_the_bug_back.py",
+      "find": "raise CouldNot(\"the test command could not start: %s\" % before.reason)",
+      "replace": "before = before"
+    },
+    {
+      "id": "list-start-generic",
+      "guards": "a list hides that the test command could not start",
+      "test": "python3 -m unittest tests.test_all.ListTests.test_list_command_cannot_start",
+      "expect": "FAIL: test_list_command_cannot_start",
+      "file": "put_the_bug_back.py",
+      "find": "return \"the test command could not start (exit %d)\" % code",
+      "replace": "return \"the test fails before any bug is put back\""
+    },
+    {
+      "id": "before-timeout-generic",
+      "guards": "a time limit before a bug reads like any other failure",
+      "test": "python3 -m unittest tests.test_swap.SwapTests.test_before_timeout_message",
+      "expect": "FAIL: test_before_timeout_message",
+      "file": "put_the_bug_back.py",
+      "find": "say(\"NOT GREEN: the test %s before any bug was put back\" % timeout_reason(timeout))",
+      "replace": "say(\"NOT GREEN: the test fails before any bug is put back\")"
+    },
+    {
+      "id": "list-timeout-generic",
+      "guards": "a list hides a time limit that hit before a bug",
+      "test": "python3 -m unittest tests.test_all.ListTests.test_list_before_timeout",
+      "expect": "FAIL: test_list_before_timeout",
+      "file": "put_the_bug_back.py",
+      "find": "return \"the test %s before any bug was put back\" % timeout_reason(timeout)",
+      "replace": "return \"the test fails before any bug is put back\""
+    },
+    {
+      "id": "signal-hides-tail",
+      "guards": "a signal hides the last lines of test output",
+      "test": "python3 -m unittest tests.test_swap.SwapTests.test_signal_shows_the_tail",
+      "expect": "FAIL: test_signal_shows_the_tail",
+      "file": "put_the_bug_back.py",
+      "find": "or outcome.timed_out or outcome.signal",
+      "replace": "or False"
+    },
+    {
+      "id": "one-is-plural",
+      "guards": "a count of one uses the plural",
+      "test": "python3 -m unittest tests.test_all.ListTests.test_one_problem",
+      "expect": "FAIL: test_one_problem",
+      "file": "put_the_bug_back.py",
+      "find": "return count == 1",
+      "replace": "return False"
+    },
+    {
+      "id": "missing-list-generic",
+      "guards": "a missing default list does not name the path",
+      "test": "python3 -m unittest tests.test_all.ListTests.test_missing_list_names_the_path",
+      "expect": "FAIL: test_missing_list_names_the_path",
+      "file": "put_the_bug_back.py",
+      "find": "raise CouldNot(\"no list at %s\" % path)",
+      "replace": "raise CouldNot(\"bugs.json could not be read\")"
+    },
+    {
+      "id": "kept-line-always",
+      "guards": "the kept line is printed when no file was kept",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_kept_line_only_when_a_file_was_kept",
+      "expect": "FAIL: test_kept_line_only_when_a_file_was_kept",
+      "file": "put_the_bug_back.py",
+      "find": "    if kept:",
+      "replace": "    if True:"
+    },
+    {
+      "id": "binary-says-tangled",
+      "guards": "a binary file gets the tangled-commit sentence",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_binary_followup",
+      "expect": "FAIL: test_binary_followup",
+      "file": "put_the_bug_back.py",
+      "find": "    if tangled:",
+      "replace": "    if True:"
+    },
+    {
+      "id": "relative-from-top",
+      "guards": "a relative path is taken from the top of the repository",
+      "test": "python3 -m unittest tests.test_swap.SwapTests.test_relative_paths_from_the_start_directory",
+      "expect": "FAIL: test_relative_paths_from_the_start_directory",
+      "file": "put_the_bug_back.py",
+      "find": "joined = os.path.join(start_dir(repo), path)",
+      "replace": "joined = os.path.join(root, path)"
+    },
+    {
+      "id": "mode-change-missed",
+      "guards": "a mode change after the fix is not noticed",
+      "test": "python3 -m unittest tests.test_commit.CommitTests.test_mode_changed_since_the_fix",
+      "expect": "FAIL: test_mode_changed_since_the_fix",
+      "file": "put_the_bug_back.py",
+      "find": "if is_exec(current_mode) != is_exec(new_mode):",
+      "replace": "if False:"
+    }
+  ]
+}
